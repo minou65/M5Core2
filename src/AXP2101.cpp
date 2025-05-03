@@ -173,7 +173,7 @@ bool AXP2101::readRegister(uint8_t addr, uint8_t reg, uint8_t* result,
     _wire->beginTransmission(addr);
     _wire->write(reg);
     err = _wire->endTransmission();
-    _wire->requestFrom(addr, length);
+    _wire->requestFrom(static_cast<uint8_t>(addr), static_cast<uint8_t>(length));
     for (int i = 0; i < length; i++) {
         result[index++] = _wire->read();
     }
@@ -190,7 +190,7 @@ uint8_t AXP2101::readRegister8(uint8_t addr, uint8_t reg, uint32_t freq) {
     _wire->beginTransmission(addr);
     _wire->write(reg);
     _wire->endTransmission();
-    _wire->requestFrom(addr, 1);
+    _wire->requestFrom(static_cast<uint8_t>(addr), static_cast<uint8_t>(1));
     result = _wire->read();
     return result;
 }
