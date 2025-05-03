@@ -19,8 +19,8 @@ void M5Display::begin() {
     fillScreen(0);
 
     // Init the back-light LED PWM
+    ledcAttachPin(TFT_BL, BLK_PWM_CHANNEL);
     ledcSetup(BLK_PWM_CHANNEL, 44100, 8);
-    // ledcAttachPin(TFT_BL, BLK_PWM_CHANNEL);
     ledcWrite(BLK_PWM_CHANNEL, 80);
 }
 
@@ -348,11 +348,11 @@ static uint32_t jpgWrite(JDEC *decoder, void *bitmap, JRECT *rect) {
 }
 
 static bool jpgDecode(jpg_file_decoder_t *jpeg,
-                      uint32_t (*reader)(JDEC *, uint8_t *, uint32_t)) {
+                      unsigned int (*reader)(JDEC *, uint8_t *, unsigned int)) {
     static uint8_t work[3100];
     JDEC decoder;
 
-    JRESULT jres = jd_prepare(&decoder, reader, work, 3100, jpeg);
+    JRESULT jres = jd_prepare(& decoder ,reader, work, 3100, jpeg);
     if (jres != JDR_OK) {
         log_e("jd_prepare failed! %s", jd_errors[jres]);
         return false;
